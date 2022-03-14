@@ -20,14 +20,6 @@ def create_app():
     migrate = Migrate()
     migrate.init_app(app, db)
 
-    @app.before_first_request
-    def setup_db():
-        db.create_all()
-
-    @app.teardown_appcontext
-    def close_db(sender, **extra):
-        db.session.close()
-
     if not app.config['DEBUG']:
         import logging
         from logging.handlers import RotatingFileHandler
