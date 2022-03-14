@@ -1,0 +1,23 @@
+services:
+
+  files-service-test-db:
+    image: postgres:14
+    env_file:
+      - ./.env.test
+
+  files-service-web-test:
+    build:
+      context: src/
+      dockerfile: Dockerfile
+      target: test
+    entrypoint: >
+      sh -c "pytest"
+    volumes:
+      - ./src:/code
+      - ./test_store:/test_store
+    env_file:
+      - ./.env.test
+    depends_on:
+      - files-service-test-db
+
+
